@@ -1,0 +1,10 @@
+.library-display{
+    width: 900px;
+    display: grid;
+    grid-template-columns: repeat(5,1fr);
+
+}
+.card{
+    width: 100%;
+    border: 2px solid black;
+}
