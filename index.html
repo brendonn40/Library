@@ -10,12 +10,37 @@
 </head>
 <body>
     <div id="library-display">
-        <!-- <div class="card">
-            <strong>title </strong>: harry potter <br>
-            author : jk rowling <br>
-            pages:32 <br>
-        </div> -->
+       
         
     </div>
+    <button>Add Book</button>
+    
+    <form action="/" method="post">
+        <fieldset>
+            <legend>Lets do this!</legend>
+        <div class="row">
+        
+            <div>
+                <label for="title">Title</label><br>
+                <input type="text" id="book-title" name="title"required><br>
+            </div>
+            <div>
+                 <label for="author">Author</label><br>
+                 <input type="text" id="book-author" name="author" required>
+            </div>
+            <div>
+                <label for="pages">Number of Pages</label><br>
+                <input type="number" id="book-pages" name="pages" required>
+           </div>
+           <div>
+            <p id=form-prompt>Have you read this book yet?</p>
+            <input type="radio" id="yes" name="read" value="yes">
+            <label for="yes">yes</label>
+            <input type="radio" id="no" name="read" value="no">
+            <label for="no">no</label>
+       </div>
+        </div>
+        <button type="submit">Submit</button>
+    </form>
 </body>
 </html>

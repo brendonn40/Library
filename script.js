@@ -28,9 +28,13 @@ putBookOnDisplay()
 function putBookOnDisplay(){
     for (let i = 0; i < myLibrary.length; i++) {
         item = myLibrary[i]
-        let card = document.createElement("div")
-        card.classList.add("card")
-        card.innerText=`Title:${item.title}\nAuthor: ${item.author}\nPages:${item.pages}\nRead:${(item.read === true)? "yes" : "no"}`
-        library.appendChild(card)
+        putOnDisplay(item)
     }
 }
+function putOnDisplay(book){
+    let card = document.createElement("div")
+    card.classList.add("card")
+    card.innerText=`Title:${book.title}\nAuthor: ${book.author}\nPages:${book.pages}\nRead:${(book.read === true)? "yes" : "no"}`
+    library.appendChild(card)
+}
+
