@@ -1,5 +1,13 @@
 let myLibrary = []
 const library = document.getElementById("library-display")
+const addButton = document.getElementById("add-btn")
+
+console.log(addButton)
+
+addButton.addEventListener("click", function(e){
+    e.stopPropagation()
+    toogleForm()
+})
 
 function Book(title,author,pages,read){
     this.title = title
@@ -38,3 +46,8 @@ function putOnDisplay(book){
     library.appendChild(card)
 }
 
+function toogleForm() {
+    var element = document.getElementById("form");
+    element.classList.toggle("hidden");
+ 
+}
