@@ -15,8 +15,8 @@
     </div>
     <button id="add-btn">Add Book</button>
     
-    <form action="/" method="post" id="form" class="hidden">
-        <fieldset>
+    <form  id="form" class="hidden">
+        <!-- <fieldset> -->
             <legend>Lets do this!</legend>
         <div class="row">
         
@@ -34,13 +34,13 @@
            </div>
            <div>
             <p id=form-prompt>Have you read this book yet?</p>
-            <input type="radio" id="yes" name="read" value="yes">
+            <input type="radio" id="yes" name="read" value="true" required>
             <label for="yes">yes</label>
-            <input type="radio" id="no" name="read" value="no">
+            <input type="radio" id="no" name="read" value="false">
             <label for="no">no</label>
        </div>
         </div>
-        <button type="submit">Submit</button>
+        <button type="reset" id="submit-btn">Submit</button>
     </form>
 </body>
 </html>
