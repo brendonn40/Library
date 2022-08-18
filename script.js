@@ -7,7 +7,7 @@ const submitButton = document.getElementById("submit-btn")
 addBookToLibrary("harry potter","jk rowling","632",true)
 addBookToLibrary("harry potter","jk rowling","632",true)
 addBookToLibrary("harry potter","jk rowling","632",true)
-addBookToLibrary("harry potter","jk rowling","632",true)
+addBookToLibrary("harry potter","jk rowling","632",false)
 addBookToLibrary("harry potter","jk rowling","632",true)
 addBookToLibrary("harry potter","jk rowling","632",true)
 putBookOnDisplay()
@@ -26,8 +26,12 @@ function addNewBook(){
     let titleValue = document.getElementById("book-title").value
     let authorValue = document.getElementById("book-author").value
     let pagesValue = document.getElementById("book-pages").value
-    let readValue = document.querySelector("input[name='read']:checked").value
-
+    let readValue = document.querySelector("input[name='read']:checked").value 
+    if(readValue === "true"){
+        readValue = true
+    }else{
+        readValue = false
+    }
     let newBook = new Book(titleValue,authorValue,pagesValue,readValue)
     myLibrary.push(newBook)
     putOnDisplay(newBook)
