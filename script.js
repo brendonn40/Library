@@ -2,7 +2,9 @@ let myLibrary = []
 const library = document.getElementById("library-display")
 const addButton = document.getElementById("add-btn")
 const submitButton = document.getElementById("submit-btn")
+const remove = document.getElementsByClassName("rm-btn")
 
+console.log(remove)
 
 addBookToLibrary("harry potter","jk rowling","632",true)
 addBookToLibrary("harry potter","jk rowling","632",true)
@@ -10,7 +12,7 @@ addBookToLibrary("harry potter","jk rowling","632",true)
 addBookToLibrary("harry potter","jk rowling","632",false)
 addBookToLibrary("harry potter","jk rowling","632",true)
 addBookToLibrary("harry potter","jk rowling","632",true)
-putBookOnDisplay()
+putBooksOnDisplay()
 
 addButton.addEventListener("click", function(e){
     e.stopPropagation()
@@ -32,12 +34,18 @@ function addNewBook(){
     }else{
         readValue = false
     }
+    if(titleValue === "" || authorValue === "" || pagesValue === "" ){
+        alert("Fill all the info")
+        return
+    }
     let newBook = new Book(titleValue,authorValue,pagesValue,readValue)
     myLibrary.push(newBook)
-    putOnDisplay(newBook)
-    toogleForm() 
+    clearContent("library-display")
+    putBooksOnDisplay(myLibrary)
+    toogleForm()
+    
 }
-
+//constructor
 function Book(title,author,pages,read){
     this.title = title
     this.author = author
@@ -54,22 +62,38 @@ function addBookToLibrary(title,author,pages,read){
 }
 
 
-
-function putBookOnDisplay(){
+// put books on display and sets a data attribute for the remove button
+function putBooksOnDisplay(){
     for (let i = 0; i < myLibrary.length; i++) {
         item = myLibrary[i]
-        putOnDisplay(item)
+        bookNumber = i
+        let card = document.createElement("div")
+        let rmBtn = document.createElement("button") 
+        card.classList.add("card")
+        card.innerText=`Title:${item.title}\nAuthor: ${item.author}\nPages:${item.pages}\nRead:${(item.read === true)? "yes" : "no"}\n`
+        library.appendChild(card)
+        rmBtn.innerText = "remove"
+        rmBtn.classList.add("rm-btn")
+        card.appendChild(rmBtn)
+        rmBtn.setAttribute("data",bookNumber)
     }
 }
-function putOnDisplay(book){
-    let card = document.createElement("div")
-    card.classList.add("card")
-    card.innerText=`Title:${book.title}\nAuthor: ${book.author}\nPages:${book.pages}\nRead:${(book.read === true)? "yes" : "no"}`
-    library.appendChild(card)
-}
 
+// ideia atual eh fazer um event listener pra todos rm-btn e passar o data atribute(index) dele no array de livros
+//remove book from array
+function removeBook(bookNumber){
+    myLibrary.splice(bookNumber,1)
+    clearContent("library-display")
+    putBooksOnDisplay(myLibrary)
+}
+// toogle add new book form
 function toogleForm() {
     var element = document.getElementById("form");
     element.classList.toggle("hidden");
  
+}
+
+//clear display books
+function clearContent(elementID) {
+    document.getElementById(elementID).innerHTML = "";
 }
