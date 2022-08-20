@@ -14,15 +14,20 @@ addBookToLibrary("harry potter","jk rowling","632",true)
 addBookToLibrary("harry potter","jk rowling","632",true)
 putBooksOnDisplay()
 
-addButton.addEventListener("click", function(e){
-    e.stopPropagation()
-    toogleForm()
-})
+addClickEvent(addButton,toogleForm)
+addClickEvent(submitButton,addNewBook)
+addRemoveEvent()
+function addRemoveEvent(){
+    for (let index = 0; index < remove.length; index++) {
+        remove[index].addEventListener("click",function(e){
+            e.stopPropagation()
+            removeBook(remove[index].getAttribute("data"))
+            addRemoveEvent()
+        })
+        
+    }
+}
 
-submitButton.addEventListener("click", function(e){
-    e.stopPropagation()
-    addNewBook()
-})
 
 function addNewBook(){
     let titleValue = document.getElementById("book-title").value
@@ -42,6 +47,7 @@ function addNewBook(){
     myLibrary.push(newBook)
     clearContent("library-display")
     putBooksOnDisplay(myLibrary)
+    addRemoveEvent()
     toogleForm()
     
 }
@@ -85,6 +91,7 @@ function removeBook(bookNumber){
     myLibrary.splice(bookNumber,1)
     clearContent("library-display")
     putBooksOnDisplay(myLibrary)
+    
 }
 // toogle add new book form
 function toogleForm() {
@@ -96,4 +103,11 @@ function toogleForm() {
 //clear display books
 function clearContent(elementID) {
     document.getElementById(elementID).innerHTML = "";
+}
+// create event and stop propagation
+function addClickEvent(element,callback){
+    element.addEventListener("click",function(e){
+        e.stopPropagation()
+        callback()
+    })
 }
