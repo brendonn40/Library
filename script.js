@@ -3,32 +3,44 @@ const library = document.getElementById("library-display")
 const addButton = document.getElementById("add-btn")
 const submitButton = document.getElementById("submit-btn")
 const remove = document.getElementsByClassName("rm-btn")
+const changeBtns = document.getElementsByClassName("change-btn")
 
-console.log(remove)
 
-addBookToLibrary("harry potter","jk rowling","632",true)
-addBookToLibrary("harry potter","jk rowling","632",true)
-addBookToLibrary("harry potter","jk rowling","632",true)
-addBookToLibrary("harry potter","jk rowling","632",false)
-addBookToLibrary("harry potter","jk rowling","632",true)
-addBookToLibrary("harry potter","jk rowling","632",true)
 putBooksOnDisplay()
-
 addClickEvent(addButton,toogleForm)
 addClickEvent(submitButton,addNewBook)
 addRemoveEvent()
+changeReadStatus()
+
+//create event listeners for all change read buttons + call the togogleRead method
+function changeReadStatus(){
+    for (let index = 0; index < changeBtns.length; index++) {
+        changeBtns[index].addEventListener("click",function(e){
+            e.stopPropagation()
+            myLibrary[index].toggleRead()
+            clearContent()
+            putBooksOnDisplay()
+            changeReadStatus()
+            addRemoveEvent()
+
+        })
+        
+    }
+}
+// create event listeners for all remove buttons + call the removebook function
 function addRemoveEvent(){
     for (let index = 0; index < remove.length; index++) {
         remove[index].addEventListener("click",function(e){
             e.stopPropagation()
             removeBook(remove[index].getAttribute("data"))
             addRemoveEvent()
+            changeReadStatus()
         })
         
     }
 }
 
-
+// add new book from data received through form
 function addNewBook(){
     let titleValue = document.getElementById("book-title").value
     let authorValue = document.getElementById("book-author").value
@@ -45,9 +57,10 @@ function addNewBook(){
     }
     let newBook = new Book(titleValue,authorValue,pagesValue,readValue)
     myLibrary.push(newBook)
-    clearContent("library-display")
+    clearContent()
     putBooksOnDisplay(myLibrary)
     addRemoveEvent()
+    changeReadStatus()
     toogleForm()
     
 }
@@ -61,7 +74,9 @@ function Book(title,author,pages,read){
 Book.prototype.info =  function(){
 return `${this.title} by ${this.author}, ${this.pages} pages,${(this.read === true) ? "already read" : "not read yet"}`
 }
-
+Book.prototype.toggleRead =  function(){
+this.read = !this.read
+}
 
 function addBookToLibrary(title,author,pages,read){
     myLibrary.push(new Book(title,author,pages,read))
@@ -74,7 +89,8 @@ function putBooksOnDisplay(){
         item = myLibrary[i]
         bookNumber = i
         let card = document.createElement("div")
-        let rmBtn = document.createElement("button") 
+        let rmBtn = document.createElement("button")
+        let changeRead = document.createElement("button") 
         card.classList.add("card")
         card.innerText=`Title:${item.title}\nAuthor: ${item.author}\nPages:${item.pages}\nRead:${(item.read === true)? "yes" : "no"}\n`
         library.appendChild(card)
@@ -82,14 +98,17 @@ function putBooksOnDisplay(){
         rmBtn.classList.add("rm-btn")
         card.appendChild(rmBtn)
         rmBtn.setAttribute("data",bookNumber)
+        changeRead.innerText = "change read status"
+        changeRead.classList.add("change-btn")
+        card.appendChild(changeRead)
+
     }
 }
 
-// ideia atual eh fazer um event listener pra todos rm-btn e passar o data atribute(index) dele no array de livros
 //remove book from array
 function removeBook(bookNumber){
     myLibrary.splice(bookNumber,1)
-    clearContent("library-display")
+    clearContent()
     putBooksOnDisplay(myLibrary)
     
 }
@@ -101,8 +120,8 @@ function toogleForm() {
 }
 
 //clear display books
-function clearContent(elementID) {
-    document.getElementById(elementID).innerHTML = "";
+function clearContent() {
+    document.getElementById("library-display").innerHTML = "";
 }
 // create event and stop propagation
 function addClickEvent(element,callback){
